@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using CobWebs.Test.Domain;
 
 namespace CobWebs.Test.Abstraction
 {
@@ -13,6 +14,8 @@ namespace CobWebs.Test.Abstraction
 
     public interface IPlayerFactory
     {
-        IPlayer Create(PlayerStrategyType strategyType);
+        IPlayer Create(string playerName,
+            PlayerStrategyType strategyType,
+            BasketGameConfig config);
     }
 }

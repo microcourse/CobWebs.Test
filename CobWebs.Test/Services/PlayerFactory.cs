@@ -3,11 +3,12 @@ using CobWebs.Test.Domain;
 
 namespace CobWebs.Test.Abstraction
 {
-    public class PlayerFactory
+    public class PlayerFactory: IPlayerFactory
     {
-        public PlayerFactory(PlayerStrategyType strategyType, BasketGameConfig config)
+       public IPlayer Create(string playerName, PlayerStrategyType strategyType, BasketGameConfig config)
         {
             throw new NotImplementedException();
+
 
             switch (strategyType)
             {
