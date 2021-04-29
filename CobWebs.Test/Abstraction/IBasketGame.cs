@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CobWebs.Test.Abstraction
 {
-    public  IBasketGame
+    public interface IBasketGame
     {
     }
 }
