@@ -1,9 +1,18 @@
-﻿using CobWebs.Test.Domain;
+﻿using System.Diagnostics;
 
 namespace CobWebs.Test.Abstraction
 {
+    public enum PlayerStrategyType
+    {
+        Random,
+        Memory,
+        Thorough,
+        Cheater,
+        ThoroughCheater
+    }
+
     public interface IPlayerFactory
     {
-        IPlayer Create();
+        IPlayer Create(PlayerStrategyType strategyType);
     }
 }

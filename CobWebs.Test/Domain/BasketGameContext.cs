@@ -4,6 +4,7 @@ namespace CobWebs.Test.Domain
 {
     public class BasketGameContext
     {
-        public ICollection<int> History { get; set; }
+        public int BasketWeight { get; private set; }
+        public ICollection<int> WeightHistory { get; set; }
     }
 }
