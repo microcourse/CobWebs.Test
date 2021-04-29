@@ -1,5 +1,6 @@
 ﻿using System;
 using CobWebs.Test.Domain;
+using CobWebs.Test.Domain.Strategy;
 
 namespace CobWebs.Test.Abstraction
 {
@@ -7,21 +8,23 @@ namespace CobWebs.Test.Abstraction
     {
        public IPlayer Create(string playerName, PlayerStrategyType strategyType, BasketGameConfig config)
         {
-            throw new NotImplementedException();
-
-
             switch (strategyType)
             {
                 case PlayerStrategyType.Random:
-                    break;
+                    return new BasketGamePlayer(new RandomPlayerStrategy(config), playerName);
+
                 case PlayerStrategyType.Memory:
-                    break;
+                    return new BasketGamePlayer(new MemoryPlayerStrategy(config), playerName);
+
                 case PlayerStrategyType.Thorough:
-                    break;
+                    return new BasketGamePlayer(new ThoroughPlayerStrategy(config), playerName);
+
                 case PlayerStrategyType.Cheater:
-                    break;
+                    return new BasketGamePlayer(new CheaterPlayerStrategy(config), playerName);
+
                 case PlayerStrategyType.ThoroughCheater:
-                    break;
+                    return new BasketGamePlayer(new ThoroughCheaterPlayerStrategy(config), playerName);
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(strategyType), strategyType, null);
             }

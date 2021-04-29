@@ -11,7 +11,8 @@ namespace CobWebs.Test.Domain.Strategy
 
         protected override int OnGetAnswer(BasketGameContext spec)
         {
-            throw new NotImplementedException();
+            Random r = new Random();
+            return r.Next(_config.MinWeight, _config.MaxWeight);
         }
     }
 }
