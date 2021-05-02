@@ -12,11 +12,11 @@ namespace CobWebs.Test.Domain.Strategy
             _config = config ?? throw new ArgumentNullException(nameof(config));
         }
 
-        public int GetAnswer(BasketGameContext spec)
+        public int GetAnswer(BasketPlayerContext spec)
         {
             return this.OnGetAnswer(spec);
         }
 
-        protected abstract int OnGetAnswer(BasketGameContext spec);
+        protected abstract int OnGetAnswer(BasketPlayerContext spec);
     }
 }

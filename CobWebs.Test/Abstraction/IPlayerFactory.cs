@@ -14,8 +14,6 @@ namespace CobWebs.Test.Abstraction
 
     public interface IPlayerFactory
     {
-        IPlayer Create(string playerName,
-            PlayerStrategyType strategyType,
-            BasketGameConfig config);
+        IPlayer Create(BasketPlayerSpecification spec, BasketGameConfig config);
     }
 }

@@ -10,7 +10,7 @@ namespace CobWebs.Test.Domain.Strategy
         {
         }
 
-        protected override int OnGetAnswer(BasketGameContext spec)
+        protected override int OnGetAnswer(BasketPlayerContext spec)
         {
             int weight;
 

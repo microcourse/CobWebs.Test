@@ -6,14 +6,11 @@ namespace CobWebs.Test.Abstraction
 {
     public class PlayerFactory: IPlayerFactory
     {
-       public IPlayer Create(
-           string playerName, 
-           PlayerStrategyType strategyType, 
-           BasketGameConfig config)
+       public IPlayer Create(BasketPlayerSpecification spec, BasketGameConfig config)
         {
             IPlayerStrategy strategy;
 
-            switch (strategyType)
+            switch (spec.StrategyType)
             {
                 case PlayerStrategyType.Random:
                     strategy = new RandomPlayerStrategy(config);
@@ -36,10 +33,10 @@ namespace CobWebs.Test.Abstraction
                     break;
 
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(strategyType), strategyType, null);
+                    throw new ArgumentOutOfRangeException(nameof(spec.StrategyType));
             }
 
-            return new BasketGamePlayer(strategy, playerName);
+            return new BasketGamePlayer(strategy, spec.PlayerName);
         }
     }
 }

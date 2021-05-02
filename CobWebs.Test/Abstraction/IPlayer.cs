@@ -5,6 +5,6 @@ namespace CobWebs.Test.Abstraction
     public interface IPlayer
     {
         public string Name { get; }
-        int GetAnswer(BasketGameContext spec);
+        int GetAnswer(BasketPlayerContext spec);
     }
 }
