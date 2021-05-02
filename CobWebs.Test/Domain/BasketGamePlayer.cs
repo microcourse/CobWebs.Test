@@ -8,13 +8,12 @@ namespace CobWebs.Test.Domain
         private readonly IPlayerStrategy _strategy;
 
         public string Name { get; private set; }
-        protected BasketGamePlayer(IPlayerStrategy strategy, string name)
+
+        public BasketGamePlayer(IPlayerStrategy strategy, string name)
         {
             this._strategy = strategy ?? throw new ArgumentNullException(nameof(strategy));
             this.Name = name;
         }
-
-
 
         public int GetAnswer(BasketGameContext spec)
         {
