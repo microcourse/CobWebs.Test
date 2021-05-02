@@ -48,13 +48,12 @@ namespace CobWebs.Test
 
             do
             {
-                winnerState = TryGetWinner(context);
+                var hasWinnerPlayer = TryGetWinner(context, out winnerState);
 
-                if (winnerState != null)
+                if (hasWinnerPlayer)
                 {
                     break;
                 }
-
 
                 Console.WriteLine("Attempts: {0}", context.Attempts);
 
@@ -64,6 +63,36 @@ namespace CobWebs.Test
             timer.Stop();
 
             PrintResult(context, winnerState);
+        }
+
+        private static bool TryGetWinner(BasketGameContext context, out BasketPlayerState winnerState)
+        {
+            winnerState = null;
+
+            foreach (var state in context.Players)
+            {
+
+                Console.WriteLine("Player: {0}", state.Player.Name);
+                Thread.Sleep(state.Timeout);
+
+                var playerContext = new BasketPlayerContext(context.Answers);
+                var weight = state.Player.GetAnswer(playerContext);
+
+                state.Answers.Add(weight);
+                state.Timeout = TimeSpan.FromMilliseconds(Math.Abs(context.RealBasketWeight - weight));
+                state.Attempts++;
+
+                context.Answers.Add(weight);
+                context.Attempts++;
+
+                if (weight == context.RealBasketWeight)
+                {
+                    winnerState = state;
+                    break;
+                }
+            }
+
+            return winnerState != null;
         }
 
         private static void PrintResult(
@@ -101,36 +130,6 @@ namespace CobWebs.Test
                 $"his guess [{closestWinner.ClosestValue.Weight}], " +
                 $"his distance [{closestWinner.ClosestValue.Distance}], " +
                 $"attempts [{closestWinner.State.Attempts}].");
-        }
-
-        private static BasketPlayerState TryGetWinner(BasketGameContext context)
-        {
-            BasketPlayerState winnerState = null;
-
-            foreach (var state in context.Players)
-            {
-
-                Console.WriteLine("Player: {0}", state.Player.Name);
-                Thread.Sleep(state.Timeout);
-
-                var playerContext = new BasketPlayerContext(context.Answers);
-                var weight = state.Player.GetAnswer(playerContext);
-                
-                if (weight == context.RealBasketWeight)
-                {
-                    winnerState = state;
-                    break;
-                }
-
-                state.Answers.Add(weight);
-                state.Timeout = TimeSpan.FromMilliseconds(Math.Abs(context.RealBasketWeight-weight));
-                state.Attempts++;
-
-                context.Answers.Add(weight);
-                context.Attempts++;
-            }
-
-            return winnerState;
         }
     }
 }
