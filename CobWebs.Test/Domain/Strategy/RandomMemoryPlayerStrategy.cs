@@ -8,7 +8,7 @@ namespace CobWebs.Test.Domain.Strategy
 
     public class RandomMemoryPlayerStrategy : RandomPlayerStrategy
     {
-        private readonly HashSet<int> history = new HashSet<int>();
+        private readonly HashSet<int> _history = new HashSet<int>();
         public RandomMemoryPlayerStrategy(BasketGameConfig config) : base(config)
         {
         }
@@ -16,14 +16,15 @@ namespace CobWebs.Test.Domain.Strategy
         protected override int OnGetAnswer(BasketPlayerContext spec)
         {
             int weight;
-
+            bool isNotExists;
             do
             {
                 weight = base.OnGetAnswer(spec);
-            } 
-            while (!history.Contains(weight));
+                isNotExists = !_history.Contains(weight);
+            }
+            while (!isNotExists);
 
-            history.Add(weight);
+            _history.Add(weight);
 
             return weight;
         }

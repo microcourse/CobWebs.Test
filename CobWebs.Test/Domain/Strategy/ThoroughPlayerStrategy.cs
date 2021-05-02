@@ -20,9 +20,11 @@ namespace CobWebs.Test.Domain.Strategy
                 return lastWeight.Value;
             }
 
-            var weight = lastWeight.Value + 1;
+            lastWeight++;
 
-            return  weight >= _config.MinWeight ? _config.MaxWeight : weight;
+            return lastWeight.Value >= _config.MaxWeight ? 
+                _config.MaxWeight : 
+                lastWeight.Value;
         }
     }
 }

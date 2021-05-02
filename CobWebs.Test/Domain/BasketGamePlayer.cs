@@ -19,5 +19,11 @@ namespace CobWebs.Test.Domain
         {
             return _strategy.GetAnswer(spec);
         }
+
+
+        public override string ToString()
+        {
+            return $"{nameof(Name)}: {Name}";
+        }
     }
 }

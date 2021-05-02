@@ -29,7 +29,7 @@ namespace CobWebs.Test.Abstraction
                     break;
 
                 case PlayerStrategyType.ThoroughCheater:
-                    strategy = new ThoroughCheaterPlayerStrategy(config);
+                    strategy = new ThoroughPlayerCheaterStrategy(config);
                     break;
 
                 default:

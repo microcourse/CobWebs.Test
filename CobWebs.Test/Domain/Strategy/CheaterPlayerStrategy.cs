@@ -13,12 +13,13 @@ namespace CobWebs.Test.Domain.Strategy
         protected override int OnGetAnswer(BasketPlayerContext spec)
         {
             int weight;
-
+            bool isNotExists;
             do
             {
                 weight = base.OnGetAnswer(spec);
+                isNotExists = !spec.History.Contains(weight);
             }
-            while (spec.History.Contains(weight));
+            while (!isNotExists);
 
             return weight;
         }

@@ -35,9 +35,6 @@ namespace CobWebs.Test
                 .Select(x=> new BasketPlayerState{ Player = x})
                 .ToArray();
 
-
-            
-            var timer = new Stopwatch();
             var context = new BasketGameContext
             {
                 RealBasketWeight = basketWeight,
@@ -45,8 +42,9 @@ namespace CobWebs.Test
             };
 
             BasketPlayerState winnerState = null;
+            var timer = context.Timer;
 
-            timer.Start();
+            context.Timer.Start();
 
             do
             {
@@ -57,16 +55,52 @@ namespace CobWebs.Test
                     break;
                 }
 
-            } while (context.Attempts < _config.MaxAttempts &&
+
+                Console.WriteLine("Attempts: {0}", context.Attempts);
+
+            } while (context.Attempts < _config.MaxAttempts && 
                      timer.Elapsed < _config.MaxTime);
 
+            timer.Stop();
 
-            Console.WriteLine($"The real weight of the basket: {basketWeight}.");
+            PrintResult(context, winnerState);
+        }
+
+        private static void PrintResult(
+            BasketGameContext context,
+            BasketPlayerState winnerState)
+        {
+            var timer = context.Timer;
+
+            Console.WriteLine($"The real weight of the basket: {context.RealBasketWeight}.");
+            Console.WriteLine($"Game Attempts: [{context.Attempts}] milliseconds.");
+            Console.WriteLine($"Game Elapsed: [{timer.ElapsedMilliseconds}] milliseconds.");
             if (winnerState != null)
             {
-                Console.WriteLine($"Winner name {winnerState.Player} total amount of attempts {winnerState.Attempts}.");
+                Console.WriteLine(
+                    $"Winner name [{winnerState.Player}] total amount of attempts [{winnerState.Attempts}].");
                 return;
             }
+
+            var closestWinner = context.Players
+                .Select(x => new
+                {
+                    State = x,
+                    ClosestValue = x.Answers
+                        .Select(w => new
+                        {
+                            Distance = Math.Abs(w - context.RealBasketWeight),
+                            Weight = w
+                        })
+                        .OrderBy(d => d.Distance).First()
+
+                }).First();
+
+            Console.WriteLine(
+                $"Winner name [{closestWinner.State.Player.Name}], " +
+                $"his guess [{closestWinner.ClosestValue.Weight}], " +
+                $"his distance [{closestWinner.ClosestValue.Distance}], " +
+                $"attempts [{closestWinner.State.Attempts}].");
         }
 
         private static BasketPlayerState TryGetWinner(BasketGameContext context)
@@ -75,6 +109,8 @@ namespace CobWebs.Test
 
             foreach (var state in context.Players)
             {
+
+                Console.WriteLine("Player: {0}", state.Player.Name);
                 Thread.Sleep(state.Timeout);
 
                 var playerContext = new BasketPlayerContext(context.Answers);
@@ -86,8 +122,10 @@ namespace CobWebs.Test
                     break;
                 }
 
+                state.Answers.Add(weight);
                 state.Timeout = TimeSpan.FromMilliseconds(Math.Abs(context.RealBasketWeight-weight));
-                
+                state.Attempts++;
+
                 context.Answers.Add(weight);
                 context.Attempts++;
             }

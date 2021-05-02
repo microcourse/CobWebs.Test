@@ -12,6 +12,6 @@ namespace CobWebs.Test
 
         public TimeSpan Timeout = TimeSpan.Zero;
 
-        public ICollection<int> Weight { get; set; } = new List<int>();
+        public ICollection<int> Answers { get; set; } = new List<int>();
     }
 }
