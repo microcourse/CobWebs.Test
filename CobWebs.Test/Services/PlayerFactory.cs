@@ -5,7 +5,10 @@ namespace CobWebs.Test.Abstraction
 {
     public class PlayerFactory: IPlayerFactory
     {
-       public IPlayer Create(string playerName, PlayerStrategyType strategyType, BasketGameConfig config)
+       public IPlayer Create(
+           string playerName, 
+           PlayerStrategyType strategyType, 
+           BasketGameConfig config)
         {
             throw new NotImplementedException();
 

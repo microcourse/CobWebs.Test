@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Linq;
 using CobWebs.Test.Abstraction;
 
 namespace CobWebs.Test.Domain.Strategy
 {
-    public class CheaterPlayerStrategy : PlayerStrategyBase
+    public class CheaterPlayerStrategy : RandomPlayerStrategy
     {
         public CheaterPlayerStrategy(BasketGameConfig config) : base(config)
         {
@@ -11,7 +12,15 @@ namespace CobWebs.Test.Domain.Strategy
 
         protected override int OnGetAnswer(BasketGameContext spec)
         {
-            throw new NotImplementedException();
+            int weight;
+
+            do
+            {
+                weight = base.OnGetAnswer(spec);
+            }
+            while (spec.History.Contains(weight));
+
+            return weight;
         }
     }
 }

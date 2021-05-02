@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CobWebs.Test.Abstraction;
 
 namespace CobWebs.Test.Domain.Strategy
 {
-    public class ThoroughCheaterPlayerStrategy : ThoroughPlayerStrategy
+
+    public class RandomMemoryPlayerStrategy : RandomPlayerStrategy
     {
-        public ThoroughCheaterPlayerStrategy(BasketGameConfig config) : base(config)
+        private readonly HashSet<int> history = new HashSet<int>();
+        public RandomMemoryPlayerStrategy(BasketGameConfig config) : base(config)
         {
         }
 
@@ -17,8 +20,10 @@ namespace CobWebs.Test.Domain.Strategy
             do
             {
                 weight = base.OnGetAnswer(spec);
-            }
-            while (spec.History.Contains(weight));
+            } 
+            while (!history.Contains(weight));
+
+            history.Add(weight);
 
             return weight;
         }

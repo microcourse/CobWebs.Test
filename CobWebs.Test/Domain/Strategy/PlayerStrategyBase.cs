@@ -5,7 +5,7 @@ namespace CobWebs.Test.Domain.Strategy
 {
     public abstract class PlayerStrategyBase : IPlayerStrategy
     {
-        private readonly BasketGameConfig _config;
+        protected readonly BasketGameConfig _config;
 
         protected PlayerStrategyBase(BasketGameConfig config)
         {

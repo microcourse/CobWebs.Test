@@ -4,6 +4,11 @@ namespace CobWebs.Test.Domain
 {
     public class BasketGameContext
     {
-        public ICollection<int> WeightHistory { get; set; }
+        public IReadOnlyCollection<int> History { get; private set; }
+
+        public BasketGameContext(IEnumerable<int> history)
+        {
+            History = new HashSet<int>(history);
+        }
     }
 }
